@@ -15,8 +15,7 @@ export const createContactSchema = Joi.object({
   isFavourite: Joi.boolean(),
   contactType: Joi.string()
     .valid('work', 'home', 'personal')
-    .default('personal')
-    .required(),
+    .default('personal'),
 });
 
 // const dataToValidate = {
