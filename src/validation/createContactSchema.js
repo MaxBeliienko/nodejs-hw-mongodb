@@ -11,7 +11,7 @@ export const createContactSchema = Joi.object({
     'string.min': 'Phone number should have at least {#limit} characters',
     'string.max': 'Phone number should have at most {#limit} characters',
   }),
-  email: Joi.string().email().required(),
+  email: Joi.string().email(),
   isFavourite: Joi.boolean(),
   contactType: Joi.string()
     .valid('work', 'home', 'personal')
