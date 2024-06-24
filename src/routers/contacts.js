@@ -6,6 +6,7 @@ import {
   patchContactController,
   deleteContactController,
 } from '../controllers/contacts.js';
+import { authenticate } from '../middlewares/authenticate.js';
 import { ctrlWrapper } from '../utils/ctrlWrapper.js';
 import { validateBody } from '../middlewares/validateBody.js';
 import { createContactSchema } from '../validation/createContactSchema.js';
@@ -14,24 +15,26 @@ import validateMongoID from '../middlewares/validateMongoId.js';
 
 const router = Router();
 
-router.use('/contacts/:contactId', validateMongoID);
+router.use(authenticate);
 
-router.get('/contacts', ctrlWrapper(getContactsController));
+router.use('/:contactId', validateMongoID);
 
-router.get('/contacts/:contactId', ctrlWrapper(getContactsByIdController));
+router.get('/', ctrlWrapper(getContactsController));
+
+router.get('/:contactId', ctrlWrapper(getContactsByIdController));
 
 router.post(
-  '/contacts',
+  '/',
   validateBody(createContactSchema),
   ctrlWrapper(createContactController),
 );
 
 router.patch(
-  '/contacts/:contactId',
+  '/:contactId',
   validateBody(updateContactSchema),
   ctrlWrapper(patchContactController),
 );
 
-router.delete('/contacts/:contactId', ctrlWrapper(deleteContactController));
+router.delete('/:contactId', ctrlWrapper(deleteContactController));
 
 export default router;
